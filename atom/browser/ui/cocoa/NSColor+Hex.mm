@@ -8,6 +8,66 @@
 
 @implementation NSColor (Hex)
 
+- (NSString*)RGBAValue {
+  double redFloatValue, greenFloatValue, blueFloatValue, alphaFloatValue;
+  int redIntValue, greenIntValue, blueIntValue, alphaIntValue;
+  NSString *redHexValue, *greenHexValue, *blueHexValue, *alphaHexValue;
+
+  NSColor* convertedColor =
+      [self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+
+  if (convertedColor) {
+    [convertedColor getRed:&redFloatValue
+                     green:&greenFloatValue
+                      blue:&blueFloatValue
+                     alpha:&alphaFloatValue];
+
+    redIntValue = redFloatValue * 255.99999f;
+    greenIntValue = greenFloatValue * 255.99999f;
+    blueIntValue = blueFloatValue * 255.99999f;
+    alphaIntValue = alphaFloatValue * 255.99999f;
+
+    redHexValue = [NSString stringWithFormat:@"%02x", redIntValue];
+    greenHexValue = [NSString stringWithFormat:@"%02x", greenIntValue];
+    blueHexValue = [NSString stringWithFormat:@"%02x", blueIntValue];
+    alphaHexValue = [NSString stringWithFormat:@"%02x", alphaIntValue];
+
+    return [NSString stringWithFormat:@"%@%@%@%@", redHexValue, greenHexValue,
+                                      blueHexValue, alphaHexValue];
+  }
+
+  return nil;
+}
+
+- (NSString*)hexadecimalValue {
+  double redFloatValue, greenFloatValue, blueFloatValue;
+  int redIntValue, greenIntValue, blueIntValue;
+  NSString *redHexValue, *greenHexValue, *blueHexValue;
+
+  NSColor* convertedColor =
+      [self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+
+  if (convertedColor) {
+    [convertedColor getRed:&redFloatValue
+                     green:&greenFloatValue
+                      blue:&blueFloatValue
+                     alpha:NULL];
+
+    redIntValue = redFloatValue * 255.99999f;
+    greenIntValue = greenFloatValue * 255.99999f;
+    blueIntValue = blueFloatValue * 255.99999f;
+
+    redHexValue = [NSString stringWithFormat:@"%02x", redIntValue];
+    greenHexValue = [NSString stringWithFormat:@"%02x", greenIntValue];
+    blueHexValue = [NSString stringWithFormat:@"%02x", blueIntValue];
+
+    return [NSString
+        stringWithFormat:@"#%@%@%@", redHexValue, greenHexValue, blueHexValue];
+  }
+
+  return nil;
+}
+
 + (NSColor*)colorWithHexColorString:(NSString*)inColorString {
   unsigned colorCode = 0;
   unsigned char redByte, greenByte, blueByte;
